@@ -1,10 +1,10 @@
-package com.example.springbasic.ch02.excode.order;
+package com.example.springbasic.ch03.excode.order;
 
-import com.example.springbasic.ch02.excode.discount.DiscountPolicy;
-import com.example.springbasic.ch02.excode.member.Member;
-import com.example.springbasic.ch02.excode.member.MemberRepository;
+import com.example.springbasic.ch03.excode.discount.DiscountPolicy;
+import com.example.springbasic.ch03.excode.member.Member;
+import com.example.springbasic.ch03.excode.member.MemberRepository;
 
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl implements OrderService {
 
     private MemberRepository memberRepository;
     private DiscountPolicy discountPolicy;
