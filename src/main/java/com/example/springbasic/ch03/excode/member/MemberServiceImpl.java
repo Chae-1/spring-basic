@@ -1,6 +1,6 @@
-package com.example.springbasic.ch02.excode.member;
+package com.example.springbasic.ch03.excode.member;
 
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
     private final MemberRepository repository;
 
     public MemberServiceImpl(MemberRepository repository) {

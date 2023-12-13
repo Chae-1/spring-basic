@@ -1,9 +1,8 @@
-package com.example.springbasic.ch02.excode;
+package com.example.springbasic.ch03.excode;
 
-import com.example.springbasic.ch02.excode.member.Grade;
-import com.example.springbasic.ch02.excode.member.Member;
-import com.example.springbasic.ch02.excode.member.MemberService;
-import com.example.springbasic.ch02.excode.member.MemberServiceImpl;
+import com.example.springbasic.ch03.excode.member.Grade;
+import com.example.springbasic.ch03.excode.member.Member;
+import com.example.springbasic.ch03.excode.member.MemberService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

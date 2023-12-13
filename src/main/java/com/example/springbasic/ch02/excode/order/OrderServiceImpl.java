@@ -1,11 +1,8 @@
 package com.example.springbasic.ch02.excode.order;
 
 import com.example.springbasic.ch02.excode.discount.DiscountPolicy;
-import com.example.springbasic.ch02.excode.discount.FixDiscountPolicy;
-import com.example.springbasic.ch02.excode.discount.RateDiscountPolicy;
 import com.example.springbasic.ch02.excode.member.Member;
 import com.example.springbasic.ch02.excode.member.MemberRepository;
-import com.example.springbasic.ch02.excode.member.MemoryMemberRepository;
 
 public class OrderServiceImpl implements OrderService{
     // 관심사의 분리가 필요하다.
@@ -14,6 +11,11 @@ public class OrderServiceImpl implements OrderService{
     // 애플리케이션의 전체 동작 방식을 구성하자.
     private MemberRepository memberRepository;
     private DiscountPolicy discountPolicy;
+
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
