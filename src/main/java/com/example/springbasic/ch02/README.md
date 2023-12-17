@@ -1,3 +1,37 @@
+# 관심사의 분리
+기존 코드에서는 클라이언트 코드가 서버 코드를 직접 생성하고 사용한다.
+
+이러한 이유로 DIP, OCP를 위배한다.
+```java
+public class OrderService {
+  private MemberRepository memberRepository = new MemoryMemberRepository();
+  //..
+}
+```
+객체를 생성하는 부분과 사용하는 부분을 분리한다면 이 문제를 해결할 수 있다.
+
+객체를 생성하는 책임을 맡는 클래스와 이를 사용하는 클래스로 구분하면 DIP, OCP를 준수할 수 있다.
+
+```java
+
+public class OrderService {
+  private MemberRepository memberRepository;
+
+  public OrderService(MemberRepository memberRepository) {
+    this.memberRepository = memberRepository;
+  }
+  //..
+}
+
+public class Config {
+  public MemberRepository memberRepository() {
+    return new MemoryMemberRepository();
+  }
+  
+  // ...
+}
+```
+
 # IOC, DI, 컨테이너
 ## 제어의 역전 IOC(Inversion of Control)
 - 클라이언트 구현 객체가 스스로 필요한 객체를 생성, 연결, 실행했다.
