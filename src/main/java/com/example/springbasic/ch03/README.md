@@ -58,3 +58,37 @@ MemberService memberService = ac.getBean(MemberService.class);
 // 3. 구체 타입으로 조히 가능
 MemberServiceImpl memberService = ac.getBean(MemberServiceImpl.class);
 ```
+
+1. 스프링의 모든 빈을 찾는 방법
+```java
+// 1. 스프링에 등록된 모든 빈의 이름을 조회하는 API
+String[] beanDefinitionNames = ac.getBeanDefinitionNames();
+// 2. BeanDefinition을 조회할 수 있다.
+BeanDefinition beanDefinition = ac.getBeanDefinition(beanDefinitionNames[i]);
+// 3. 빈 이름으로 조회한 빈 -> 타입을 지정하지 않으면, Object로 조회  
+Object bean = ac.getBean(beanDefinitionNames[i]);
+```
+
+1. 동일 타입의 빈을 조회하는 방법
+```java
+// MemberRepository 타입의 모든 빈을 조회
+// key는 빈의 이름, value는 실제 인스턴스
+Map<String, MemberRepository> map = ac.getBeansOfType(MemberRepository.class);
+
+```
+
+**빈 조회 정리**
+1. 해당 타입의 빈이 하나만 존재하면, 부모 타입으로 조회하거나 자식 타입으로 조회해도 문제 없다.
+2. 둘 이상 존재한다면,
+  - 빈 이름을 지정해야 예외가 발생하지 않는다.
+  - 특정 하위 타입으로 조회하면 된다.
+  - 모두 조회해서 필요한 빈을 찾는다.
+
+
+## 스프링 빈 설정 정보 - BeanDefinition
+- 스프링은 XML, 코드 등등 다양한 방법으로 빈을 설정할 수 있다. `BeanDefinition` 클래스가 이를 가능하게 한다.
+  - `AnnotationConfigApplicationContext` 에서는 Config 클래스에 등록된 `@Bean`을 읽어들여 스프링 빈으로 등록한다.
+  - `GenericXmlApplicationContext`는 xml 파일을 읽고 빈을 설정한다.
+형식에 상관없이 설정정보를 등록할 수 있게 `BeanDefinition`을 가지고 있다.
+- BeanDefinition은 해당 빈의 각종 정보를 가지고 있다.
+- 
