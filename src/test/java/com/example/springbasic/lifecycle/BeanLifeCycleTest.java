@@ -22,5 +22,10 @@ public class BeanLifeCycleTest {
             networkClient.setUrl("http://hello-spring-dev");
             return networkClient;
         }
+
+        @Bean
+        public TestSet testSet() {
+            return new TestSet();
+        }
     }
 }

@@ -58,5 +58,95 @@ public class NetworkClient {
 - 설정 정보에 초기화, 종료 메서드를 지정
 - @PostConstruct, @PreDestroy
 
+```java
+public class NetworkClient implements InitializingBean, DisposableBean {
+    private String url;
+
+    public NetworkClient() {
+        System.out.println("NetworkClient.NetworkClient");
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void connect() {
+        System.out.println("connect: " + url);
+    }
+
+    public void call(String message) {
+        System.out.println("call: " + url + ", message: " + message);
+    }
+
+    public void disconnect() {
+        System.out.println("close " + url);
+    }
+
+    // 의존 관계 주입이 끝나면
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("NetworkClient.afterPropertiesSet");
+        connect();
+        call("초기화 연결 메시지");
+    }
+
+    // 빈이 소멸 될 때,
+    @Override
+    public void destroy() throws Exception {
+        System.out.println("NetworkClient.destroy");
+        disconnect();
+    }
+}
+```
+- afterPropertiesSet() -> `InitializingBean`인터페이스에 존재하는 추상 메서드
+  - 빈의 초기화를 지원한다. 의존관계가 주입된 이후에 호출되는 초기화 콜백 메서드.
+- destroy() -> `DisposableBean` 의 추상 메서드
+  - 빈이 소멸하는 시점에 호출 된다.
+
+스프링 전용 인터페이스라는 점에서, 사용하는 것 자체를 권장하지는 않는다.
 
 
+```java
+@Configuration
+static class LifeCycleConfig {
+    @Bean(initMethod = "init", destroyMethod = "close")
+    public NetworkClient networkClient() {
+        NetworkClient networkClient = new NetworkClient();
+        networkClient.setUrl("http://hello-spring-dev");
+        return networkClient;
+    }
+
+    @Bean
+    public TestSet testSet() {
+        return new TestSet();
+    }
+}
+```
+- 빈을 수동 등록 할때, initMethod, destroyMethod를 등록할 수 있다.
+- 이는 초기화, 소멸 시 호출 된다.
+
+*종료 메서드 추론*
+- @Bean의 destroyMethod 속성에는
+- close, shutdown 이름의 메서드가 존재할 때, 소멸 시 호출 메서드로 사용한다.
+- 이를 사용하고 싶지 않다면, destroyMethod=""로 설정해야한다.
+
+
+## @PostConstruct, @PreDestroy
+초기화 콜백, 소멸전 콜백을 설정할 때, 이 방법을 사용하자.
+```java
+    @PostConstruct
+    public void init() throws Exception {
+        System.out.println("NetworkClient.afterPropertiesSet");
+        connect();
+        call("초기화 연결 메시지");
+    }
+
+    // 빈이 소멸 될 때,
+    @PreDestroy
+    public void close() throws Exception {
+        System.out.println("NetworkClient.destroy");
+        disconnect();
+    }
+```
+
+- 외부 라이브러리를 초기화, 종료 해야 하면, @Bean의 기능을 사용하자.

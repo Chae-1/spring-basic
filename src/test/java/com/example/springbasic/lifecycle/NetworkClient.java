@@ -1,16 +1,18 @@
 package com.example.springbasic.lifecycle;
 
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 
-public class NetworkClient implements InitializingBean, DisposableBean {
+public class NetworkClient {
     private String url;
+    private TestSet testSet;
 
     public NetworkClient() {
         System.out.println("NetworkClient.NetworkClient");
     }
 
     public void setUrl(String url) {
+        System.out.println("NetworkClient.setUrl");
         this.url = url;
     }
 
@@ -27,16 +29,16 @@ public class NetworkClient implements InitializingBean, DisposableBean {
     }
 
     // 의존 관계 주입이 끝나면
-    @Override
-    public void afterPropertiesSet() throws Exception {
+    @PostConstruct
+    public void init() throws Exception {
         System.out.println("NetworkClient.afterPropertiesSet");
         connect();
         call("초기화 연결 메시지");
     }
 
     // 빈이 소멸 될 때,
-    @Override
-    public void destroy() throws Exception {
+    @PreDestroy
+    public void close() throws Exception {
         System.out.println("NetworkClient.destroy");
         disconnect();
     }
