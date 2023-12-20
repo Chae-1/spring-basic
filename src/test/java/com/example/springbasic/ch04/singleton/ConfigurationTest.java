@@ -1,6 +1,7 @@
 package com.example.springbasic.ch04.singleton;
 
 import com.example.springbasic.ch03.excode.AppConfig;
+import com.example.springbasic.ch03.excode.AutoAppConfig;
 import com.example.springbasic.ch03.excode.member.MemberRepository;
 import com.example.springbasic.ch03.excode.member.MemberServiceImpl;
 import com.example.springbasic.ch03.excode.order.OrderServiceImpl;
@@ -26,8 +27,8 @@ public class ConfigurationTest {
 
     @Test
     void configurationDeep() {
-        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
-        AppConfig bean = ac.getBean(AppConfig.class);
+        ApplicationContext ac = new AnnotationConfigApplicationContext(AutoAppConfig.class);
+        AutoAppConfig bean = ac.getBean(AutoAppConfig.class);
         System.out.println(bean.getClass());
     }
 }

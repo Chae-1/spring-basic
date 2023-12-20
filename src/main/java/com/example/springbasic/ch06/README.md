@@ -88,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
   - 이를 자동 빈 등록으로 해결하는 방법이 존재한다.
 
 
-## @Qualifier, @Primary, @AutoWire("fieldName")
+## @Qualifier, @Primary, @AutoWire "fieldName"
 1. @Autowired 필드명 매칭
 ```java
 @Component
@@ -113,11 +113,12 @@ public class OrderServiceImpl implements OrderService {
 }
 
 ```
+@Autowired는 다음과 같은 순서로 매칭된다.
 - 여러 개가 매칭될 때, 스프링 빈 이름으로 주입된다.
-  - 타입 매칭 이후 
-  - 두 개 이상 이면,파라미터 이름으로 매칭
+  - 타입 매칭 시도. -> 매칭 되면 그 객체가 주입된다.
+  - 두 개 이상 이면, 파라미터 이름으로 매칭.
 
-
+  
 2. @Qualifier
 스프링 빈에 추가 구분자를 붙여주는 역할을 한다.
 - 주입 시, @Qualifier를 붙여주는 것으로 구분한다.
@@ -161,3 +162,19 @@ public class OrderServiceImpl implements OrderService {
 @Primary가 붙은 빈을 우선적으로 매칭한다.
 
 - @Primary 보다 @Qualifier 가 우선적으로 적용된다.
+
+### 자동, 수동 운영 기준
+**기본적으로는 자동 의존 관계주입을 사용하자**
+- 스프링 부트에서는 기본적으로 컴포넌트 스캔을 사용한다.
+- 다양한 빈들도 조건에 맞으면, 자동으로 등록하도록 설계했다.
+
+수동 빈 등록은 업무 로직 빈일 경우 사용하자.
+- **업무 로직 빈**: 웹을 지원하는 컨트롤러, 핵심 비즈니스 로직이 있는 서비스, 
+데이터 계층의 리포지토리가 모두 업무 로직이다.
+- **기술 로직 빈**: 기술적인 문제나 공통 관심사를 처리할 때, 주로 사용한다.
+
+하지만, 업무 로직 빈에서 List, Map을 통해 다형성을 적극 활용할 때는 따로 수동으로 빈을 등록한다.
+특정 패키지에 묶어 관리하자.
+
+스프링, 스프링 부트가 자동으로 등록하는 수 많은 빈들은 예외이다.
+- `DataSource` 같은 기술 지원 로직까지 내부에서 자동으로 등록한다.

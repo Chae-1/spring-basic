@@ -41,9 +41,13 @@ public class RateDiscountPolicy implements DiscountPolicy {
 - basePackages -> 컴포넌트 스캔 시작 패키지를 지정한다.
 - basePackageClasses -> 해당 클래스의 패키지를 시작위치로 지정한다.
 
+탐색 시작 범위는, 결국 패키지를 대상으로 지정한다.
+
 ## 필터
 - includeFilters: 컴포넌트 스캔 대상을 추가로 지정한다.
+  - 즉, `@Component` 가 붙지 않은 클래스도 추가하겠다.
 - excludeFilters: 컴포넌트 스캔에서 제외할 대상을 지정한다.
+  - 컴포넌트 스캔의 대상이지만, 제외하고 싶은 목록을 지정한다.
 - FilterOption
   - ANNOTATION : 기본값, 애노테이션을 인식해 동작.
   - ASSIGNABLE_TYPE : 지정한 타입과 자식 타입을 인식한다.
